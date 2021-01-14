@@ -1,6 +1,20 @@
 import React from 'react'
 
-import Task from './Task'
+import TodoListings from './TodoListings'
+
+const style = {
+  box: {
+    width: '40%',
+    border: 'solid black',
+    borderRadius: 5,
+    padding: '8px 8px'
+  },
+  app: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 8
+  }
+}
 
 const Todo = ({}) => {
   // tasks String[]
@@ -56,69 +70,25 @@ const Todo = ({}) => {
           Add Task
         </button>
 
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: 8
-          }}
-        >
-          <div style={{
-              width: '40%',
-              border: 'solid black',
-              borderRadius: 5,
-              padding: '8px 8px',
-              marginRight: 4
-            }}
-          >
-            <b>Tasks</b>
-            <hr />
-
-            {
-              tasks && tasks.length > 0 && tasks.map((v, i) => {
-                return (
-                  <Task key={ i } data={ v } index={ i } doneClick={ removeTask } />
-                )
-              })
-            }
+        <div style={ style.app }>
+          <div style={{ ...style.box, marginRight: 4 }}>
+            <TodoListings
+              success={{ value: 'Done' }}
+              successClick={ removeTask }
+              title={ 'Tasks' }
+              data={ tasks }
+            />
           </div>
           
-          <div style={{
-              width: '40%',
-              border: 'solid black',
-              borderRadius: 5,
-              padding: '8px 8px'
-            }}
-          >
-            <b>Done</b>
-            <hr/>
-
-            {
-              dones && dones.length > 0 && dones.map((v, i) => {
-                return (
-                  <div key={ i }>
-                    { v }
-                    
-                    <span style={{ marginLeft: 4 }}>
-                      <span style={{ marginRight: 4 }}>
-                        <button
-                          className="btn btn-outline-danger btn-sm"
-                          onClick={ () => removeDone(i) }
-                        >
-                          Checkout
-                        </button>
-                      </span>
-
-                      <button
-                        className="btn btn-outline-warning btn-sm"
-                        onClick={ () => moveToTasks(i) }
-                      >
-                        Undo
-                      </button>
-                    </span>
-                  </div>
-                )
-              })
-            }
+          <div style={ style.box }>
+            <TodoListings
+              danger={{ value: 'Checkout' }}
+              dangerClick={ removeDone }
+              warning={{ value: 'Undo' }}
+              warningClick={ moveToTasks }
+              title={ 'Done' }
+              data={ dones }
+            />
           </div>
         </div>
       </div>
