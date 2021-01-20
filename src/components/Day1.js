@@ -1,8 +1,14 @@
 import logo from '../logo.svg';
 import React from 'react'
 
-function Day1() {
-  const [name, setName] = React.useState('');
+import { connect } from 'react-redux'
+
+import { day1SetName } from '../redux/actions/day1Actions'
+
+const Day1 = ({ dispatch, name }) => {
+  const setName = val => {
+    dispatch(day1SetName(val))
+  }
 
   return (
     <div>
@@ -35,4 +41,10 @@ function Day1() {
   );
 }
 
-export default Day1;
+const mapStateToProps = state => {
+  return {
+    name: state.day1Reducer.name
+  }
+}
+
+export default connect(mapStateToProps)(Day1);

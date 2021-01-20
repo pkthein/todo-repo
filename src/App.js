@@ -8,10 +8,14 @@ import {
   Link
 } from "react-router-dom";
 
+import { connect } from 'react-redux'
 
 import Day1 from './components/Day1'
 import Todo from './components/Todo'
 import TTT from './components/TTT'
+import Calculator from './components/Calculator'
+
+const repo = '/2021-sp-react-boot'
 
 function App() {
   return (
@@ -22,22 +26,26 @@ function App() {
           top: 0,
           backgroundColor: 'white'
         }}>
-          <Link to="/day1">Day1</Link> |
-          { ' ' }<Link to="/todo">Todo</Link> |
-          { ' ' }<Link to="/ttt">TTT</Link>
+          <Link to={ `${repo}/day1` }>Day1</Link> |
+          { ' ' }<Link to={ `${repo}/todo` }>Todo</Link> |
+          { ' ' }<Link to={ `${repo}/ttt` }>TTT</Link> |
+          { ' ' }<Link to={ `${repo}/calculator` }>Calculator</Link> |
         </nav>
 
         <Switch>
-          <Route exact path="/day1">
+          <Route exact path={ `${repo}/day1` }>
             <Day1 />
           </Route>
-          <Route exact path="/todo">
+          <Route exact path={ `${repo}/todo` }>
             <Todo/>
           </Route>
-          <Route exact path="/ttt">
+          <Route exact path={ `${repo}/ttt` }>
             <TTT/>
           </Route>
-          <Route exact path="/">
+          <Route exact path={ `${repo}/calculator` }>
+            <TTT/>
+          </Route>
+          <Route exact path={ `${repo}/` }>
             <Day1 />
           </Route>
           <Route path="*">
@@ -49,4 +57,8 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => ({
+
+})
+
+export default connect(mapStateToProps)(App);
