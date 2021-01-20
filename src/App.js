@@ -29,7 +29,7 @@ function App() {
           <Link to={ `${repo}/day1` }>Day1</Link> |
           { ' ' }<Link to={ `${repo}/todo` }>Todo</Link> |
           { ' ' }<Link to={ `${repo}/ttt` }>TTT</Link> |
-          { ' ' }<Link to={ `${repo}/calculator` }>Calculator</Link> |
+          { ' ' }<Link to={ `${repo}/calculator` }>Calculator</Link>
         </nav>
 
         <Switch>
@@ -43,7 +43,7 @@ function App() {
             <TTT/>
           </Route>
           <Route exact path={ `${repo}/calculator` }>
-            <TTT/>
+            <Calculator/>
           </Route>
           <Route exact path={ `${repo}/` }>
             <Day1 />
