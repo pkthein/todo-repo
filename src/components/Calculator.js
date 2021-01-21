@@ -5,9 +5,9 @@ import ButtonGroup from  './ButtonGroup'
 const Calculator = ({}) => {
   const [exp, setExp] = React.useState('0')
   const [var1, setVar1] = React.useState(0)
-  // const [var2, setVar2] = React.useState(0)
+  const [var2, setVar2] = React.useState(0)
   const [ops, setOps] = React.useState(null)
-  // const [prevO, setPrevO] = React.useState(null)
+  const [prevO, setPrevO] = React.useState(null)
 
   const keys = [
     ['1', '2', '3', '*', 'CE'],
@@ -28,9 +28,9 @@ const Calculator = ({}) => {
     if (v === 'C') {
       setExp('0')
       setVar1(0)
-      // setVar2(0)
+      setVar2(0)
       setOps(null)
-      // setPrevO(null)
+      setPrevO(null)
       return true
     } else if (v === 'CE') {
       setExp('0')
@@ -50,38 +50,32 @@ const Calculator = ({}) => {
     }
     
     if (v === '=') {
-      // console.log(var1, ops, exp, evaluate(), prevO, var2)
-      // if (ops === null) {
-      //   if (prevO) {
-      //     return new Promise((resolve) => {
-      //       resolve(true)
-      //     })
-      //       .then(() => setVar1(Number(exp)))
-      //       .then(() => setOps(prevO))
-      //       .then(() => setExp(var2.toString()))
-      //       .then(() => setExp(evaluate().toString()))
-      //       .then(() => setOps(null))
-      //       .then(() => setVar1(0))
-      //       .then(() => true)
-      //   } else {
-      //     setExp(evaluate().toString())
+      console.log(var1, ops, exp, evaluate(), prevO, var2)
+      if (ops === null) {
+        if (prevO) {
+          setExp(
+            paramEvaluate(
+              prevO, var2.toString(), Number(exp)
+            ).toString()
+          )
 
-      //     setOps(null)
-      //     setVar1(0)
-      //   }
-      // } else {
-      //   setPrevO(ops)
-      //   setVar2(Number(exp))
+          setOps(null)
+          setVar1(0)
+        } else {
+          setExp(evaluate().toString())
 
-      //   setExp(evaluate().toString())
+          setOps(null)
+          setVar1(0)
+        }
+      } else {
+        setPrevO(ops)
+        setVar2(Number(exp))
 
-      //   setOps(null)
-      //   setVar1(0)
-      // }
-      setExp(evaluate().toString())
+        setExp(evaluate().toString())
 
-      setOps(null)
-      setVar1(0)
+        setOps(null)
+        setVar1(0)
+      }
     } else {
       setOps(v)
       setExp('0')
@@ -94,11 +88,24 @@ const Calculator = ({}) => {
     if (ops === '+') {
       return Number(exp) + var1
     } else if (ops === '-') {
-      return Number(exp) - var1
+      return var1 - Number(exp)
     } else if (ops === '*') {
       return Number(exp) * var1
     } else if (ops === '/') {
       return var1 / Number(exp)
+    }
+    return 0
+  }
+
+  const paramEvaluate = (o, e, v) => {
+    if (o === '+') {
+      return Number(e) + v
+    } else if (o === '-') {
+      return v - Number(e)
+    } else if (o === '*') {
+      return Number(e) * v
+    } else if (o === '/') {
+      return v / Number(e)
     }
     return 0
   }
