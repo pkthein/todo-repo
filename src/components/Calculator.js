@@ -5,7 +5,9 @@ import ButtonGroup from  './ButtonGroup'
 const Calculator = ({}) => {
   const [exp, setExp] = React.useState('0')
   const [var1, setVar1] = React.useState(0)
-  const [var2, setVar2] = React.useState(0)
+  // const [var2, setVar2] = React.useState(0)
+  const [ops, setOps] = React.useState(null)
+  // const [prevO, setPrevO] = React.useState(null)
 
   const keys = [
     ['1', '2', '3', '*', 'CE'],
@@ -23,21 +25,82 @@ const Calculator = ({}) => {
   }
 
   const handleOpsClick = (v) => {
-    if (v === '+') {
-      setVar1(Number(exp) + var1)
-    } else if (v === '-') {
-      setVar1(Number(exp) - var1)
-    } else if (v === '*') {
-      setVar1(Number(exp) * var1)
-    } else if (v === '/') {
-      setVar1(Number(exp) / var1)
+    if (v === 'C') {
+      setExp('0')
+      setVar1(0)
+      // setVar2(0)
+      setOps(null)
+      // setPrevO(null)
+      return true
+    } else if (v === 'CE') {
+      setExp('0')
+      return true
+    } else if (v === '<-') {
+      setExp(exp.substring(0, exp.length - 1))
+      return true
+    } else if (v === '\u00B1') {
+      setExp((Number(exp) * -1).toString())
+      return true
     }
 
-    if (v === '=') {
-      setExp(var1.toString())
+    if (ops === null) {
+      setVar1(Number(exp))
     } else {
+      setVar1(evaluate())
+    }
+    
+    if (v === '=') {
+      // console.log(var1, ops, exp, evaluate(), prevO, var2)
+      // if (ops === null) {
+      //   if (prevO) {
+      //     return new Promise((resolve) => {
+      //       resolve(true)
+      //     })
+      //       .then(() => setVar1(Number(exp)))
+      //       .then(() => setOps(prevO))
+      //       .then(() => setExp(var2.toString()))
+      //       .then(() => setExp(evaluate().toString()))
+      //       .then(() => setOps(null))
+      //       .then(() => setVar1(0))
+      //       .then(() => true)
+      //   } else {
+      //     setExp(evaluate().toString())
+
+      //     setOps(null)
+      //     setVar1(0)
+      //   }
+      // } else {
+      //   setPrevO(ops)
+      //   setVar2(Number(exp))
+
+      //   setExp(evaluate().toString())
+
+      //   setOps(null)
+      //   setVar1(0)
+      // }
+      setExp(evaluate().toString())
+
+      setOps(null)
+      setVar1(0)
+    } else {
+      setOps(v)
       setExp('0')
     }
+
+    return true
+  }
+
+  const evaluate = () => {
+    if (ops === '+') {
+      return Number(exp) + var1
+    } else if (ops === '-') {
+      return Number(exp) - var1
+    } else if (ops === '*') {
+      return Number(exp) * var1
+    } else if (ops === '/') {
+      return var1 / Number(exp)
+    }
+    return 0
   }
 
   return (
